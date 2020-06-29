@@ -55,7 +55,6 @@ public class FaceOverlayView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         if ((mBitmap != null) && (mFaces != null)) {
             double scale = drawBitmap(canvas);
             //case :
@@ -106,6 +105,7 @@ public class FaceOverlayView extends View {
         paint.setStrokeWidth(5);
 
         for (int i = 0; i < mFaces.size(); i++) {
+            //lấy hàm
             Face face = mFaces.valueAt(i);
 
             for (Landmark landmark : face.getLandmarks()) {

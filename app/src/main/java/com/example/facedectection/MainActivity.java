@@ -2,6 +2,8 @@ package com.example.facedectection;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -20,6 +22,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.adapter.StickerAdapter;
+import com.example.model.Sticker;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -27,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,9 +46,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
         addControls();
         addEvents();
     }
+
+    private void initView() {
+        RecyclerView recyclerView = findViewById(R.id.recycle_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        ArrayList<Sticker> arrayList = new ArrayList<>();
+        arrayList.add(new Sticker("cheek 3",R.drawable.cheek_3,1));
+        arrayList.add(new Sticker("cheek lips",R.drawable.cheek_lips,2));
+        arrayList.add(new Sticker("cheek love",R.drawable.cheek_love,3));
+        arrayList.add(new Sticker("dog",R.drawable.dog,4));
+        arrayList.add(new Sticker("glasses",R.drawable.glasses,5));
+        arrayList.add(new Sticker("star",R.drawable.star,6));
+        StickerAdapter stickerAdapter = new StickerAdapter(arrayList,getApplicationContext());
+        recyclerView.setAdapter(stickerAdapter);
+    }
+
     private void addControls() {
         btnCamera = findViewById(R.id.btnCamera);
         btnGallery = findViewById(R.id.btnGallery);
