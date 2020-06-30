@@ -108,10 +108,15 @@ public class FaceOverlayView extends View {
             //lấy hàm
             Face face = mFaces.valueAt(i);
 
+//                    Landmark landmark = face.getLandmarks().get(0);
+//                    int cx = (int) (landmark.getPosition().x * scale);
+//                    int cy = (int) (landmark.getPosition().y * scale);
+//                    canvas.drawCircle(cx, cy, 10, paint);
             for (Landmark landmark : face.getLandmarks()) {
                 int cx = (int) (landmark.getPosition().x * scale);
                 int cy = (int) (landmark.getPosition().y * scale);
                 canvas.drawCircle(cx, cy, 10, paint);
+
             }
 
         }
