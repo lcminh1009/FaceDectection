@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btnSave;
     ImageButton btnCamera;
     ImageButton btnGallery;
+    Bitmap bitmap;
     private FaceOverlayView mFaceOverlayView;
     //OutputStream outputStream;
     @Override
@@ -64,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
         arrayList.add(new Sticker("glasses",R.drawable.glasses,5));
         arrayList.add(new Sticker("star",R.drawable.star,6));
         StickerAdapter stickerAdapter = new StickerAdapter(arrayList,getApplicationContext());
+        stickerAdapter.setOnStickerSelect(new StickerAdapter.OnStickerSelect() {
+            @Override
+            public void onSelect(Sticker sticker) {
+                mFaceOverlayView.setBitmap(bitmap,sticker.getRule());
+            }
+        });
         recyclerView.setAdapter(stickerAdapter);
     }
 
@@ -147,15 +154,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 69 && resultCode == RESULT_OK){
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            mFaceOverlayView.setBitmap(bitmap);
+            bitmap = (Bitmap) data.getExtras().get("data");
+            mFaceOverlayView.setBitmap(bitmap,0);
         }
         if(requestCode == 96 && resultCode == RESULT_OK && data != null){
             Uri uri = data.getData();
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                mFaceOverlayView.setBitmap(bitmap);
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                mFaceOverlayView.setBitmap(bitmap,0);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

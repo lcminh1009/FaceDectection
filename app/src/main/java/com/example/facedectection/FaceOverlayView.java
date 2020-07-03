@@ -32,11 +32,10 @@ public class FaceOverlayView extends View {
     public FaceOverlayView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-    public void setRule(int rule){
-        mRule = rule;
-    }
-    public void setBitmap(Bitmap bitmap) {
+
+    public void setBitmap(Bitmap bitmap,int rule) {
         mBitmap = bitmap;
+        mRule = rule;
         FaceDetector detector = new FaceDetector.Builder(getContext())
                 .setTrackingEnabled(true)
                 .setLandmarkType(FaceDetector.ALL_LANDMARKS)
@@ -51,7 +50,6 @@ public class FaceOverlayView extends View {
         }
         invalidate();
     }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -103,22 +101,51 @@ public class FaceOverlayView extends View {
         paint.setColor(Color.GREEN);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5);
-
-        for (int i = 0; i < mFaces.size(); i++) {
-            //lấy hàm
-            Face face = mFaces.valueAt(i);
+        switch (mRule){
+            case 0:
+                for (int i = 0; i < mFaces.size(); i++) {
+                    //lấy hàm
+                    Face face = mFaces.valueAt(i);
 
 //                    Landmark landmark = face.getLandmarks().get(0);
 //                    int cx = (int) (landmark.getPosition().x * scale);
 //                    int cy = (int) (landmark.getPosition().y * scale);
 //                    canvas.drawCircle(cx, cy, 10, paint);
-            for (Landmark landmark : face.getLandmarks()) {
-                int cx = (int) (landmark.getPosition().x * scale);
-                int cy = (int) (landmark.getPosition().y * scale);
-                canvas.drawCircle(cx, cy, 10, paint);
+                    for (Landmark landmark : face.getLandmarks()) {
+                        int cx = (int) (landmark.getPosition().x * scale);
+                        int cy = (int) (landmark.getPosition().y * scale);
+                        canvas.drawCircle(cx, cy, 10, paint);
 
-            }
+                    }
+
+                }
+                break;
+            case 1:
+                for (int i = 0; i < mFaces.size(); i++) {
+                    //lấy hàm
+                    Face face = mFaces.valueAt(i);
+                    Landmark landmark = face.getLandmarks().get(0);
+                    int cx = (int) (landmark.getPosition().x * scale);
+                    int cy = (int) (landmark.getPosition().y * scale);
+                    canvas.drawCircle(cx, cy, 10, paint);
+
+
+                }
+                break;
+            case 2:
+                for (int i = 0; i < mFaces.size(); i++) {
+                    //lấy hàm
+                    Face face = mFaces.valueAt(i);
+                    Landmark landmark = face.getLandmarks().get(2);
+                    int cx = (int) (landmark.getPosition().x * scale);
+                    int cy = (int) (landmark.getPosition().y * scale);
+                    canvas.drawCircle(cx, cy, 10, paint);
+
+
+                }
+                break;
 
         }
+
     }
 }
