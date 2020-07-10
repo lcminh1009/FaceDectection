@@ -108,10 +108,6 @@ public class FaceOverlayView extends View {
                     //lấy hàm
                     Face face = mFaces.valueAt(i);
 
-//                    Landmark landmark = face.getLandmarks().get(0);
-//                    int cx = (int) (landmark.getPosition().x * scale);
-//                    int cy = (int) (landmark.getPosition().y * scale);
-//                    canvas.drawCircle(cx, cy, 10, paint);
                     for (Landmark landmark : face.getLandmarks()) {
                         int cx = (int) (landmark.getPosition().x * scale);
                         int cy = (int) (landmark.getPosition().y * scale);
@@ -121,6 +117,7 @@ public class FaceOverlayView extends View {
 
                 }
                 break;
+                //left eye
             case 1:
                 for (int i = 0; i < mFaces.size(); i++) {
                     //lấy hàm
@@ -133,7 +130,21 @@ public class FaceOverlayView extends View {
 
                 }
                 break;
+                //right eye
             case 2:
+                for (int i = 0; i < mFaces.size(); i++) {
+                    //lấy hàm
+                    Face face = mFaces.valueAt(i);
+                    Landmark landmark = face.getLandmarks().get(1);
+                    int cx = (int) (landmark.getPosition().x * scale);
+                    int cy = (int) (landmark.getPosition().y * scale);
+                    canvas.drawCircle(cx, cy, 10, paint);
+
+
+                }
+                break;
+                // nose
+            case 3:
                 for (int i = 0; i < mFaces.size(); i++) {
                     //lấy hàm
                     Face face = mFaces.valueAt(i);
@@ -145,7 +156,45 @@ public class FaceOverlayView extends View {
 
                 }
                 break;
+                // bottom lips
+            case 4:
+                for (int i = 0; i < mFaces.size(); i++) {
+                    //lấy hàm
+                    Face face = mFaces.valueAt(i);
+                    Landmark landmark = face.getLandmarks().get(3);
+                    int cx = (int) (landmark.getPosition().x * scale);
+                    int cy = (int) (landmark.getPosition().y * scale);
+                    canvas.drawCircle(cx, cy, 10, paint);
 
+
+                }
+                break;
+                // left lips
+            case 5:
+                for (int i = 0; i < mFaces.size(); i++) {
+                    //lấy hàm
+                    Face face = mFaces.valueAt(i);
+                    Landmark landmark = face.getLandmarks().get(4);
+                    int cx = (int) (landmark.getPosition().x * scale);
+                    int cy = (int) (landmark.getPosition().y * scale);
+                    canvas.drawCircle(cx, cy, 10, paint);
+
+
+                }
+                break;
+                // right lips
+            case 6:
+                for (int i = 0; i < mFaces.size(); i++) {
+                    //lấy hàm
+                    Face face = mFaces.valueAt(i);
+                    Landmark landmark = face.getLandmarks().get(5);
+                    int cx = (int) (landmark.getPosition().x * scale);
+                    int cy = (int) (landmark.getPosition().y * scale);
+                    canvas.drawCircle(cx, cy, 10, paint);
+
+
+                }
+                break;
         }
 
     }
