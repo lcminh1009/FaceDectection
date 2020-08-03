@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -41,8 +42,11 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btnCamera;
     ImageButton btnGallery;
     Bitmap bitmap;
+    Bitmap facebitmap;
     private FaceOverlayView mFaceOverlayView;
-    //OutputStream outputStream;
+    OutputStream outputStream;
+    String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +62,15 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<Sticker> arrayList = new ArrayList<>();
-        arrayList.add(new Sticker("cheek 3",R.drawable.cheek_3,1));
-        arrayList.add(new Sticker("cheek lips",R.drawable.cheek_lips,2));
-        arrayList.add(new Sticker("cheek love",R.drawable.cheek_love,3));
-        arrayList.add(new Sticker("dog",R.drawable.dog,4));
-        arrayList.add(new Sticker("glasses",R.drawable.glasses,5));
-        arrayList.add(new Sticker("star",R.drawable.star,6));
+        arrayList.add(new Sticker("Rainbow glasses",R.drawable.glasses0,1));
+        arrayList.add(new Sticker("Thug life",R.drawable.glasses1,2));
+        arrayList.add(new Sticker("dollar glasses",R.drawable.glasses3,3));
+        arrayList.add(new Sticker("Saclo",R.drawable.glasses4,4));
+        arrayList.add(new Sticker("lipstick",R.drawable.lips,5));
+        arrayList.add(new Sticker("love",R.drawable.love,6));
+        arrayList.add(new Sticker("fire eyes",R.drawable.fire,7));
+        arrayList.add(new Sticker("beard",R.drawable.beard2,8));
+
         StickerAdapter stickerAdapter = new StickerAdapter(arrayList,getApplicationContext());
         stickerAdapter.setOnStickerSelect(new StickerAdapter.OnStickerSelect() {
             @Override
@@ -98,56 +105,43 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 96);
             }
         });
-//        btnSave.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FileOutputStream fileOutputStream = null;
-//                File file = getdisc();
-//                if (!file.exists() && !file.mkdir()){
-//                    Toast.makeText(getApplicationContext(),"sorry can not make dir",Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyymmsshhmmss");
-//                String date = simpleDateFormat.format(new Date());
-//                String name = "img" + date +".jpeg";
-//                String file_name = file.getAbsolutePath()+ "/" + name;
-//                File new_file = new File(file_name);
-//                try {
-//                    fileOutputStream = new FileOutputStream(new_file);
-//                    Bitmap bitmap = viewToBitmap(imgHinh, imgHinh.getWidth(),imgHinh.getHeight());
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
-//                    Toast.makeText(getApplicationContext(),"success",Toast.LENGTH_SHORT).show();
-//                    fileOutputStream.flush();
-//                    fileOutputStream.close();
-//                } catch (FileNotFoundException e){
-//
-//                } catch (IOException e){
-//
-//                } refreshGallary(file);
-//
-//            }
-//
-//            private void refreshGallary(File file) {
-//                Intent i = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//                i.setData(Uri.fromFile(file));
-//                sendBroadcast(i);
-//            }
-//
-//
-//            private File getdisc() {
-//                ContextWrapper cw = new ContextWrapper(getApplicationContext());
-//                File file = cw.getDir("imageDir", Context.MODE_PRIVATE);
-//                return  new File(file,"My Image");
-//            }
-//        });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Here");
+                //facebitmap = BitmapFactory.decodeResource(getResources(),R.drawable.glasses0);
+                facebitmap = mFaceOverlayView.getmBitmap();
 
-    }
+                if (facebitmap == null) {
+                    Log.d(TAG, "facebitmap null");
+                    return;
+                }
+                File filepath = Environment.getExternalStorageDirectory();
+                File dir = new File(filepath.getAbsolutePath()+"/Camera");
+                if (! dir.exists()){
+                    if (! dir.mkdirs()){
+                        Log.d(TAG, "Make dir failed!");
+                        return;
+                    }
+                }
+                File file = new File(dir.getPath() + File.separator + System.currentTimeMillis()+".jpg");
+                try {
+                    outputStream = new FileOutputStream(file);
+                } catch (FileNotFoundException e){
+                    e.printStackTrace();
+                }
 
-    private static Bitmap viewToBitmap(View view, int witdth, int height) {
-        Bitmap bitmap = Bitmap.createBitmap(witdth, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
+                try {
+                    facebitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+                    outputStream.close();
+                } catch (FileNotFoundException e) {
+                    Log.d(TAG, "File not found: " + e.getMessage());
+                } catch (IOException e) {
+                    Log.d(TAG, "Error accessing file: " + e.getMessage());
+                }
+                Toast.makeText(getApplicationContext(),"Image save to Gallery " + file.getPath(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
