@@ -64,13 +64,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Sticker> arrayList = new ArrayList<>();
         arrayList.add(new Sticker("Rainbow glasses",R.drawable.glasses0,1));
         arrayList.add(new Sticker("Thug life",R.drawable.glasses1,2));
-        arrayList.add(new Sticker("dollar glasses",R.drawable.glasses3,3));
+        arrayList.add(new Sticker("Dollar glasses",R.drawable.glasses3,3));
         arrayList.add(new Sticker("Saclo",R.drawable.glasses4,4));
-        arrayList.add(new Sticker("lipstick",R.drawable.lips,5));
-        arrayList.add(new Sticker("love",R.drawable.love,6));
-        arrayList.add(new Sticker("fire eyes",R.drawable.fire,7));
-        arrayList.add(new Sticker("beard",R.drawable.beard2,8));
-
+        arrayList.add(new Sticker("Lipstick",R.drawable.lips,5));
+        arrayList.add(new Sticker("Love",R.drawable.love,6));
+        arrayList.add(new Sticker("Fire eyes",R.drawable.fire,7));
+        arrayList.add(new Sticker("Beard",R.drawable.beard2,8));
         StickerAdapter stickerAdapter = new StickerAdapter(arrayList,getApplicationContext());
         stickerAdapter.setOnStickerSelect(new StickerAdapter.OnStickerSelect() {
             @Override

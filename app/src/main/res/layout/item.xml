@@ -16,10 +16,11 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:textColor="#ff11"
-        android:layout_gravity="center"
         android:id="@+id/txtIcon"
         android:layout_width="80dp"
         android:layout_height="20dp"
-        android:text="TextView" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#ff11" />
 </LinearLayout>
